@@ -1,0 +1,159 @@
+@page "/CreateExam"
+@using Domain.DTOs
+@using HttpClients.ClientInterfaces
+@using Domain
+@inject IExamService examService;
+@inject IClassService classService;
+
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">CREATE EXAM</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="examName" class="form-label">Name of the exam:</label>
+                            <input type="text" class="form-control" id="examName" @bind="name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="dateTime" class="form-label">Date & time:</label>
+                            <input type="text" class="form-control" id="dateTime" @bind="dateTime">
+                        </div>
+                        
+                    <div class="mb-3">
+                        <label for="class" class="form-label">Class:</label>
+                        <select class="form-select" id="class" @bind="selectedClass">
+                            @if (classes != null)
+                            {
+                                @foreach (var classItem in classes)
+                                {
+                                    <option value="@classItem.Name">@classItem.Name</option>
+                                }
+                            }
+                        </select>
+                        <button @onclick="CreateTheExam" type="submit" class="btn btn-primary mt-4">Create Exam</button>
+                    </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">List of Exams</h5>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="subject">
+                                @if (exams != null)
+                                {
+                                    @foreach (var exam in exams)
+                                    {
+                                        <div class="mb-3">
+                                            <a href="/ExamDetailStudent/@exam.NameOfExam" >@exam.NameOfExam</a>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="dates">
+                                @if (exams != null)
+                                {
+                                    @foreach (var exam in exams)
+                                    {
+                                        <div>
+                                            <p>@exam.DateTime</p>
+                                            </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string name = " ";
+    private string dateTime = "";
+    private int grade;
+    private string resultMsg = "";
+    private string color = " ";
+    private IEnumerable<Exam>? exams;
+    private IEnumerable<SchoolClass>? classes;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        resultMsg = "";
+        try
+        {
+            exams = await examService.GetExam();
+            classes = await classService.GetClass();
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            resultMsg = "Error retrieving data: " + e.Message;
+        }
+    }
+    
+    
+    private string? selectedClass;
+
+    private async Task<IEnumerable<SchoolClass>> GetClasses()
+    {
+        IEnumerable<SchoolClass> retrievedClasses = await classService.GetClass();
+        if (retrievedClasses.Any() == false)
+        {
+            throw new Exception("No classes found");
+        }
+        return retrievedClasses;
+    }
+
+    private async Task<IEnumerable<Exam>> GetExams()
+    {
+        IEnumerable<Exam> exams = await examService.GetExam();
+        if (exams.Any() == false)
+        {
+            throw new Exception("No exams found");
+        }
+        return exams;
+    } 
+
+
+    private async Task CreateTheExam()
+    {
+        resultMsg = "";
+
+        try
+        {
+            if (selectedClass != null)
+            {
+                IEnumerable<SchoolClass> _class = await classService.GetClass(selectedClass);
+                SchoolClass singularSchoolClass = _class.FirstOrDefault(c => c.Name.Equals(selectedClass));
+                ExamCreationDto dto = new ExamCreationDto(name, dateTime, singularSchoolClass);
+                await examService.CreateExam(dto);
+                resultMsg = "Exam successfully created";
+                color = "green";
+            }
+            else
+            {
+                resultMsg = "Please select a class";
+                color = "red";
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.ToString());
+            resultMsg = e.Message;
+            color = "red";
+        }
+    }
+}

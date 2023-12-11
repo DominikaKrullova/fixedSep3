@@ -1,0 +1,140 @@
+@page "/CreateUser"
+@using HttpClients.ClientInterfaces
+@using Domain.DTOs
+@inject IUserService userService;
+
+
+<h1 class="mb-5">Create User</h1>
+<div class="body">
+    <div class="d-flex text-center justify-content-center">
+
+        <div class="card mr-2 col-md-6 ml-r">
+            <div class="card-body">
+                <h3 class="card-title text-center">STUDENT</h3>
+                <div class="form-group field">
+                    <!-- VIA ID -->
+                    <div class="mb-3 mt-3">
+                        <label for="studentId" class="form-label">VIA ID:</label>
+                        <input type="text" id="studentId" class="form-control" @bind="studentId" @bind:event="oninput">
+                        
+                    </div>
+
+                    <!-- NAME -->
+                    <div class="mb-3">
+                        <label for="studentName" class="form-label">NAME:</label>
+                        <input type="text" id="studentName" class="form-control" @bind="studentName" @bind:event="oninput">
+                    </div>
+
+                    <!-- PASSWORD -->
+                    <div class="mb-3">
+                        <label for="studentPassword" class="form-label">PASSWORD:</label>
+                        <input type="password" id="studentPassword" class="form-control" @bind="studentPassword" @bind:event="oninput">
+                        @if (!string.IsNullOrEmpty(resultMsgStudent))
+                        {
+                            <label style="color: @color">@resultMsgStudent</label>
+                        }
+                    </div>
+                </div>
+
+                <!-- Button Row -->
+                <div class="d-grid">
+                    <button @onclick="CreateStudent" disabled="@(string.IsNullOrEmpty(studentId))" class="btn btn-primary">Create</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card ml-2 col-md-6">
+            <div class="card-body">
+                <h3 class="card-title text-center">TEACHER</h3>
+                <div class="form-group field">
+                    <!-- VIA ID -->
+                    <div class="mt-3">
+                        <label for="teacherId" class="form-label">VIA ID:</label>
+                        <input type="text" id="teacherId" class="form-control" @bind="teacherId" @bind:event="oninput">
+                    </div>
+
+                    <!-- NAME -->
+                    <div class="mt-3">
+                        <label for="teacherName" class="form-label">NAME:</label>
+                        <input type="text" id="teacherName" class="form-control" @bind="teacherName" @bind:event="oninput">
+                    </div>
+
+                    <!-- PASSWORD -->
+                    <div class="mt-3">
+                        <label for="teacherPassword" class="form-label">PASSWORD:</label>
+                        <input type="text" id="teacherPassword" class="form-control" @bind="teacherPassword" @bind:event="oninput">
+                        @if (!string.IsNullOrEmpty(resultMsgTeacher))
+                        {
+                            <label style="color: @color">@resultMsgTeacher</label>
+                        }
+                    </div>
+                </div>
+
+                <!-- Button Row -->
+                <div class="d-grid mt-3">
+                    <button @onclick="CreateTeacher" disabled="@(string.IsNullOrEmpty(teacherId))" class="btn btn-primary">Create</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@code {
+    private string studentId = "";
+    private string teacherId = "";
+    private string studentName = "";
+    private string teacherName = "";
+    private string studentPassword = "";
+    private string teacherPassword = "";
+    private string resultMsgStudent = "";
+    private string resultMsgTeacher = "";
+    private string color = "";
+
+    private async Task CreateTeacher()
+    {
+        resultMsgTeacher = "";
+
+        try
+        {
+            var dto = new TeacherCreationDto(teacherId, teacherPassword, teacherName);
+            await userService.CreateTeacher(dto);
+            teacherId = "";
+            teacherName = "";
+            teacherPassword = "";
+            resultMsgTeacher = "User successfully created";
+            color = "green";
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.ToString());
+            resultMsgTeacher = "Try again.";
+            color = "red";
+        }
+    }
+
+    private async Task CreateStudent()
+    {
+        resultMsgStudent = "";
+
+        try
+        {
+    //The Class parameter is required, therefore must be added to the dto and form for student creation. Right now, it is hardcoded to "sep".
+            await userService.CreateStudent(new StudentCreationDto(studentId, studentPassword, studentName));
+            studentId = "";
+            studentName = "";
+            studentPassword = "";
+            resultMsgStudent = "User successfully created";
+            color = "green";
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            resultMsgStudent = "Try again.";
+            color = "red";
+        }
+    }
+
+}

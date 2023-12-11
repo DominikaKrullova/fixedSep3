@@ -1,0 +1,16 @@
+@using Blazor.Auth
+@inject IAuthService authService;
+@inject NavigationManager navMgr
+@namespace Login
+
+
+<img class="icon" src="Logout.png" @onclick="Logout"/>
+
+
+@code {
+    private async Task Logout()
+    {
+        await authService.LogoutAsync();
+        navMgr.NavigateTo("/");
+    }
+}

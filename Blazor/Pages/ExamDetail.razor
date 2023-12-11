@@ -1,0 +1,97 @@
+@page "/ExamDetail/{NameOfExam}"
+@using Domain
+@using HttpClients.ClientInterfaces
+@inject IExamService examService;
+@layout LoginLayout
+
+<AuthorizeView>
+    
+</AuthorizeView>
+<div class=" mt-4">
+    <h1 class="mt-4">EXAM DETAIL</h1>
+    <div class="col-md-6 mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">@ExamName</h2>
+                <p class="card-text">
+                    <strong>Date & Time:</strong> @ExamDateTime
+                </p>
+                <p class="card-text">
+                    <strong>Class:</strong> @ClassName
+                </p>
+                <p class="card-text">
+                    <strong>Teacher:</strong> @ClassTeacher
+                </p>
+                <div class="row-col-6">
+                    <p class="fw-bold">Students:</p>
+                    @if (ClassStudents != null)
+                    {
+                        @foreach (var classStudent in ClassStudents)
+                        {
+                            <div class="d-flex">
+                                 <p class="mr-5">@classStudent</p>
+                                <a href="/PushGrade/@ExamName/@classStudent" class="ml-4">Grade</a>
+                            </div>
+                           
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="blue-container"></div>
+    
+    </div>
+
+
+
+
+@code {
+    [Parameter]
+    public string NameOfExam { get; set; }
+
+    private string ExamName = "";
+    private string ExamDateTime = "";
+    private string ClassName = " ";
+    private string ClassTeacher = "";
+    private List<string> ClassStudents;
+    private IEnumerable<Exam> selectedExam; // Keep it as IEnumerable<Exam>
+    private bool isLoading = true;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            if (!string.IsNullOrEmpty(NameOfExam))
+            {
+                // Fetch the exams by name using the service
+                selectedExam = await examService.GetExam(NameOfExam);
+
+                if (selectedExam != null && selectedExam.Any())
+                {
+                    // Find the exam by matching the NameOfExam
+                    var examToDisplay = selectedExam.FirstOrDefault(exam => 
+                        exam.NameOfExam.Equals(NameOfExam, StringComparison.OrdinalIgnoreCase));
+
+                    if (examToDisplay != null)
+                    {
+                        // Extract information from the found exam
+                        ExamName = examToDisplay.NameOfExam;
+                        ExamDateTime = examToDisplay.DateTime;
+                        ClassName = examToDisplay.Class.Name;
+                        ClassStudents = examToDisplay.Class.Students;
+                        ClassTeacher = examToDisplay.Class.TeacherId;
+
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            // Handle exceptions as needed
+        }
+    }
+}
+
+

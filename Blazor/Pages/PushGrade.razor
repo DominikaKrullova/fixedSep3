@@ -1,0 +1,55 @@
+@page "/PushGrade/{examName}/{studentId}"
+@using Domain
+@using Domain.DTOs
+@using HttpClients.ClientInterfaces
+@inject IUserService userService;
+@inject IGradeService gradeService;
+@layout LoginLayout;
+
+<h1>PushGrade</h1>
+
+@if (currentStudent != null)
+{
+    <div class="card col-md-6 p-5">
+        <h1>Student id: @currentStudent.Name</h1>
+        <p>Name of student: @currentStudent.Id</p>
+        <div>
+            <label>Input grade</label>
+            <input bind="@grade" type="number" id="grade"/>
+            <button @onclick="Grade" class="btn btn-primary">Grade</button>
+        </div>
+    </div>
+    <div class="blue-container"></div>
+    
+}
+
+
+
+
+@code {
+    [Parameter]
+    public string examName { get; set; }
+    [Parameter]
+    public string studentId { get; set; }
+    
+    
+    private int grade;
+    private IEnumerable<Student> students;
+    private Student? currentStudent;
+
+    protected override async Task OnInitializedAsync()
+    {
+        students = await userService.GetStudents(studentId);
+        currentStudent = students.FirstOrDefault(s => s.Id.Equals(studentId));
+        
+    }
+
+    private async Task Grade()
+    {
+        // IEnumerable<Grade> grades = await gradeService.GetGradesByExamId(examName);
+        // Grade gradeToCreate = grades.FirstOrDefault(g => g.StudentId.Equals(studentId, StringComparison.OrdinalIgnoreCase));
+        GradeCreationDto dto = new GradeCreationDto(examName, studentId, grade);
+        await gradeService.PushGrade(dto);
+    }
+
+}

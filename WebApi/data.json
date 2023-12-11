@@ -1,0 +1,402 @@
+{
+  "Teachers": [
+    {
+      "UserId": 1,
+      "Name": "dkjbfhsb",
+      "Id": "sdvjhasvdds f",
+      "Password": "ndshdvhs"
+    },
+    {
+      "UserId": 2,
+      "Name": "viaid2",
+      "Id": "heslo123",
+      "Password": "jan"
+    },
+    {
+      "UserId": 3,
+      "Name": "viaid9",
+      "Id": "heslo123",
+      "Password": "alhe"
+    },
+    {
+      "UserId": 4,
+      "Name": "mika",
+      "Id": "heslo123",
+      "Password": "viaid8"
+    },
+    {
+      "UserId": 5,
+      "Name": "mama",
+      "Id": "heslo123",
+      "Password": "555555"
+    },
+    {
+      "UserId": 6,
+      "Name": "mamik",
+      "Id": "333333",
+      "Password": "heslo123"
+    },
+    {
+      "UserId": 7,
+      "Name": "niki",
+      "Id": "987654",
+      "Password": "heslohes"
+    },
+    {
+      "UserId": 8,
+      "Name": "ajsbdjhabd",
+      "Id": "qwerty",
+      "Password": "asdbasdj"
+    },
+    {
+      "UserId": 9,
+      "Name": "dominika",
+      "Id": "ucitel",
+      "Password": "heslo123"
+    },
+    {
+      "UserId": 10,
+      "Name": "dominika",
+      "Id": "000000",
+      "Password": "password"
+    }
+  ],
+  "Classes": [
+    {
+      "Name": "sep",
+      "TeacherId": "34567",
+      "Students": null,
+      "Id": 1
+    },
+    {
+      "Name": "mnm",
+      "TeacherId": "dfghj",
+      "Students": null,
+      "Id": 2
+    },
+    {
+      "Name": "sep3",
+      "TeacherId": "jojo",
+      "Students": null,
+      "Id": 3
+    },
+    {
+      "Name": "skusamwe",
+      "TeacherId": "mika27",
+      "Students": [
+        "7777777"
+      ],
+      "Id": 4
+    },
+    {
+      "Name": "pokus",
+      "TeacherId": "viaid2",
+      "Students": [
+        "viaid4",
+        "747272",
+        "mike56"
+      ],
+      "Id": 5
+    },
+    {
+      "Name": "zxcvzxcv",
+      "TeacherId": "mama",
+      "Students": [
+        "jhghhh"
+      ],
+      "Id": 6
+    },
+    {
+      "Name": "asdfghjkl",
+      "TeacherId": "mama",
+      "Students": [
+        "331956",
+        "mike56",
+        "string"
+      ],
+      "Id": 7
+    },
+    {
+      "Name": "test",
+      "TeacherId": "mika",
+      "Students": [
+        "viaid4",
+        "777777",
+        "331956"
+      ],
+      "Id": 8
+    },
+    {
+      "Name": "test-4.12.2023",
+      "TeacherId": "mama",
+      "Students": [
+        "string",
+        "viaid4",
+        "331956"
+      ],
+      "Id": 9
+    },
+    {
+      "Name": "8.12.",
+      "TeacherId": "dominika",
+      "Students": [
+        "jhnghg",
+        "331956",
+        "747272"
+      ],
+      "Id": 10
+    },
+    {
+      "Name": "8.12.nr2",
+      "TeacherId": "ucitel",
+      "Students": [
+        "777777"
+      ],
+      "Id": 11
+    },
+    {
+      "Name": "10.12",
+      "TeacherId": "000000",
+      "Students": [
+        "777777",
+        "747273",
+        "747272",
+        "909090",
+        "331956"
+      ],
+      "Id": 12
+    },
+    {
+      "Name": "11/12",
+      "TeacherId": "000000",
+      "Students": [
+        "909090",
+        "jhghhh"
+      ],
+      "Id": 13
+    }
+  ],
+  "Exams": [
+    {
+      "NameOfExam": "pokusdnes",
+      "Class": {
+        "Name": "pokus",
+        "TeacherId": "viaid2",
+        "Students": [
+          "viaid4",
+          "747272",
+          "mike56"
+        ],
+        "Id": 5
+      },
+      "IdOfExam": 1,
+      "DateTime": "4.3."
+    },
+    {
+      "NameOfExam": "kopok",
+      "Class": {
+        "Name": "pokus",
+        "TeacherId": "viaid2",
+        "Students": [
+          "viaid4",
+          "747272",
+          "mike56"
+        ],
+        "Id": 5
+      },
+      "IdOfExam": 2,
+      "DateTime": "kopok"
+    },
+    {
+      "NameOfExam": " jsahvdjha",
+      "Class": {
+        "Name": "skusamwe",
+        "TeacherId": "mika27",
+        "Students": [
+          "7777777"
+        ],
+        "Id": 4
+      },
+      "IdOfExam": 3,
+      "DateTime": "asdvasjhd"
+    },
+    {
+      "NameOfExam": " pomoc",
+      "Class": {
+        "Name": "skusamwe",
+        "TeacherId": "mika27",
+        "Students": [
+          "7777777"
+        ],
+        "Id": 4
+      },
+      "IdOfExam": 4,
+      "DateTime": "sadha"
+    },
+    {
+      "NameOfExam": " jhgfds",
+      "Class": {
+        "Name": "pokus",
+        "TeacherId": "viaid2",
+        "Students": [
+          "viaid4",
+          "747272",
+          "mike56"
+        ],
+        "Id": 5
+      },
+      "IdOfExam": 5,
+      "DateTime": "lkjhgfd"
+    },
+    {
+      "NameOfExam": " skusam67",
+      "Class": {
+        "Name": "zxcvzxcv",
+        "TeacherId": "mama",
+        "Students": [
+          "jhghhh"
+        ],
+        "Id": 6
+      },
+      "IdOfExam": 6,
+      "DateTime": "zajtra"
+    },
+    {
+      "NameOfExam": " 10.12.",
+      "Class": {
+        "Name": "10.12",
+        "TeacherId": "000000",
+        "Students": [
+          "777777",
+          "747273",
+          "747272",
+          "909090",
+          "331956"
+        ],
+        "Id": 12
+      },
+      "IdOfExam": 7,
+      "DateTime": "zajtra"
+    }
+  ],
+  "Students": [
+    {
+      "Name": "string",
+      "UserId": 1,
+      "Id": "string",
+      "Password": "string"
+    },
+    {
+      "Name": "dfdsfs",
+      "UserId": 2,
+      "Id": "jhnghg",
+      "Password": "fgbfrgvf"
+    },
+    {
+      "Name": "Dominika",
+      "UserId": 3,
+      "Id": "VIAID1",
+      "Password": "abcdefgh"
+    },
+    {
+      "Name": "katya",
+      "UserId": 4,
+      "Id": "viaid4",
+      "Password": "sdfgjkgd"
+    },
+    {
+      "Name": "mika",
+      "UserId": 5,
+      "Id": "777777",
+      "Password": "heslo123"
+    },
+    {
+      "Name": "chrumka",
+      "UserId": 6,
+      "Id": "331956",
+      "Password": "heslo123"
+    },
+    {
+      "Name": "ghccgh",
+      "UserId": 7,
+      "Id": "jhghhh",
+      "Password": "bchcfcfgcfc"
+    },
+    {
+      "Name": "dominikak",
+      "UserId": 8,
+      "Id": "747273",
+      "Password": "heslo123"
+    },
+    {
+      "Name": "mika",
+      "UserId": 9,
+      "Id": "mika27",
+      "Password": "heslo123"
+    },
+    {
+      "Name": "dominikak",
+      "UserId": 10,
+      "Id": "mike56",
+      "Password": "heslo123"
+    },
+    {
+      "Name": "dominai",
+      "UserId": 11,
+      "Id": "747272",
+      "Password": "asdofijaoisjdf"
+    },
+    {
+      "Name": "denisa",
+      "UserId": 12,
+      "Id": "909090",
+      "Password": "123123123"
+    },
+    {
+      "Name": "rohit",
+      "UserId": 13,
+      "Id": "010101",
+      "Password": "password"
+    },
+    {
+      "Name": "Tom\u00E1\u0161 M\u00E4siar",
+      "UserId": 14,
+      "Id": "tomikk",
+      "Password": "hesloheslo"
+    }
+  ],
+  "Supervisors": [
+    {
+      "UserId": 1,
+      "Name": "mika",
+      "Id": "tester",
+      "Password": "password"
+    }
+  ],
+  "Grades": [
+    {
+      "Id": 1,
+      "ExamId": "kopok",
+      "StudentId": "mike56",
+      "StudentGrade": 1
+    },
+    {
+      "Id": 2,
+      "ExamId": "kopok",
+      "StudentId": "mike56",
+      "StudentGrade": 1
+    },
+    {
+      "Id": 3,
+      "ExamId": "jhgfds",
+      "StudentId": "mike56",
+      "StudentGrade": 0
+    },
+    {
+      "Id": 4,
+      "ExamId": " 10.12.",
+      "StudentId": "777777",
+      "StudentGrade": 0
+    }
+  ]
+}

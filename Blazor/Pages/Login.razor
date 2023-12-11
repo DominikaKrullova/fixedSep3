@@ -1,0 +1,127 @@
+@page "/"
+@layout LoginLayout
+@using Blazor.Auth
+@inject IAuthService authService
+@inject NavigationManager navMgr
+
+<link href="css/style.css" rel="stylesheet" />
+
+<div class="overflow-hidden">
+        <div class="col-md-6">
+            <div class="card p-4 mb-4">
+                <h5 class="mb-4">Login Student</h5>
+                <div class="mb-3">
+                    <label for="studentId" class="form-label">VIA ID:</label>
+                    <input type="text" class="form-control" id="studentId" @bind="idStudent">
+                </div>
+                <div class="mb-3">
+                    <label for="studentPassword" class="form-label">PASSWORD:</label>
+                    <input type="password" class="form-control" id="studentPassword" @bind="passwordStudent">
+                </div>
+                <p style="color: red;">@errorLabelStudent</p>
+                <button @onclick="LoginAsyncStudent" class="btn btn-primary">Login</button>
+            </div>
+        </div>
+        
+    <div>
+        <div class="col-md-6">
+            <div class="card p-4 mb-4">
+                <h5 class="mb-4">Login Teacher</h5>
+                <div class="mb-3">
+                    <label class="form-label" for="teacherId">VIA ID:</label>
+                    <input type="text" class="form-control" id="teacherId" @bind="idTeacher">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="teacherPassword">PASSWORD:</label>
+                    <input type="password" class="form-control" id="teacherPassword" @bind="passwordTeacher">
+                </div>
+                <p style="color: red;">@errorLabelTeacher</p>
+                <button @onclick="LoginAsyncTeacher" class="btn btn-primary">Login</button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="col-md-6">
+            <div class="card p-4 mb-4">
+                <h5 class="mb-4">Login Supervisor</h5>
+                <div class="mb-3">
+                    <label class="form-label" for="supervisorId">VIA ID:</label>
+                    <input type="text" class="form-control" id="supervisorId" @bind="idSupervisor">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="supervisorPassword" >PASSWORD:</label>
+                    <input type="password" class="form-control" @bind="passwordSupervisor" id="supervisorPassword">
+                </div>
+                <p style="color: red;">@errorLabelSupervisor</p>
+                <button @onclick="LoginAsyncSupervisor" class="btn btn-primary">Login</button>
+            </div>
+        </div>
+    </div>
+    <div class="blue-container">
+        <div class="mx-5">
+            <h1 class="fw-bold container-text">Grading and examination management system</h1>
+            <p>Welcome to our new system!</p>
+        </div>
+        
+    </div>
+</div>
+
+@code {
+    private string idStudent;
+    private string passwordStudent;
+    private string idTeacher;
+    private string passwordTeacher;
+    private string idSupervisor;
+    private string passwordSupervisor;
+    private string errorLabelStudent;
+    private string errorLabelTeacher;
+    private string errorLabelSupervisor;
+
+    
+    private async Task LoginAsyncStudent()
+    {
+        errorLabelStudent = "";
+        try
+        {
+            await authService.LoginAsyncStudent(idStudent, passwordStudent);
+            navMgr.NavigateTo($"/StudentIndex/{idStudent}"); // Pass student ID to the URL
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            errorLabelStudent = "Password or VIA ID is incorrect.";
+        }
+    }
+    
+    private async Task LoginAsyncTeacher()
+    {
+        errorLabelTeacher = "";
+        try
+        {
+            await authService.LoginAsyncTeacher(idTeacher, passwordTeacher);
+            navMgr.NavigateTo($"/TeacherIndex/{idTeacher}");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            errorLabelTeacher = "Password or VIA ID is incorrect.";
+        }
+    }
+    
+    private async Task LoginAsyncSupervisor()
+    {
+        errorLabelSupervisor = "";
+        try
+        {
+            await authService.LoginAsyncSupervisor(idSupervisor, passwordSupervisor);
+            navMgr.NavigateTo($"/CreateUser");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            errorLabelSupervisor = "Password or VIA ID is incorrect.";
+        }
+    }
+    
+   
+}

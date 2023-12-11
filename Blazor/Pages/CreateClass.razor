@@ -1,0 +1,171 @@
+@page "/CreateClass"
+@using Domain
+@using Domain.DTOs
+@using HttpClients.ClientInterfaces
+@inject IUserService userService;
+@inject IClassService classService;
+
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">CREATE CLASS</h1>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="className" class="form-label">Name of the class:</label>
+                        <input type="text" class="form-control" id="className" @bind="nameOfClass">
+                    </div>
+                    <div class="mb-3">
+                        <label for="teacher" class="form-label">Teacher:</label>
+                        <select class="form-select" id="teacher" @bind="selectedTeacher">
+                            <option value="">Select Teacher</option>
+                            @if (teachers != null)
+                            {
+                                @foreach (var teacher in teachers)
+                                {
+                                    <option value="@teacher.Id">@teacher.Id</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                    <label class="form-label">Students:</label>
+                    <div>
+                        @if (students != null)
+                        {
+                            @foreach (var student in students)
+                            {
+                                <div>
+                                    <input type="checkbox" id="@student.Id" value="@student.Id" @onchange="() => HandleStudentSelection(student.Id)" />
+                                    <label for="@student.Id">@student.Id</label>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                    <div>
+                            <div>
+                                @if (selectedStudentIds.Any())
+                                {
+                                    <p>Selected Students:</p>
+                                    @foreach (string selectedStudentId in selectedStudentIds)
+                                    {
+                                        <p>@selectedStudentId</p>
+                                    }
+                                }
+                            </div>
+                            <button @onclick="ClearSelection" class="mb-3 mt-3 btn btn-danger" type="submit">Clear Selection</button>
+                        </div>
+                        
+                        <button @onclick="CreateClassBlazor" type="submit" class="btn btn-primary">Create Class</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">List of Classes</h5>
+                <div class="subject">
+                    @if (classes != null)
+                    {
+                        @foreach (var class_ in classes)
+                        {
+                            <div class="mb-3">
+                                <a href="/ClassDetail/@class_.Name">@class_.Name</a>
+                            </div>
+                        }
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+@code {
+
+    private string nameOfClass = "";
+    private string? selectedTeacher = " ";
+    //private string? selectedStudent = " ";
+    private readonly List<string>? selectedStudentIds = new();
+    private string selectedStudentsString = "";
+    private IEnumerable<Teacher>? teachers;
+    private IEnumerable<Student>? students;
+    private IEnumerable<SchoolClass>? classes;
+    private string resultMsg = "";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        resultMsg = "";
+        try
+        {
+            teachers = await userService.GetTeachers();
+            students = await userService.GetStudents();
+            classes = await classService.GetClass();
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            resultMsg = "Error retrieving data: " + e.Message;
+        }
+    }
+
+    private async Task CreateClassBlazor()
+    {
+        resultMsg = "";
+
+        if (selectedTeacher == null)
+        {
+            resultMsg = "You must select a teacher.";
+            return;
+        }
+
+        if (string.IsNullOrEmpty(nameOfClass))
+        {
+            resultMsg = "Name cannot be empty.";
+            return;
+        }
+
+        try
+        {
+            ClassCreationDto dto = new(nameOfClass, selectedTeacher, selectedStudentIds);
+            await classService.CreateAsyncClass(dto);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            resultMsg = e.Message;
+        }
+    }
+
+    private void HandleStudentSelection(string studentId)
+    {
+        if (selectedStudentIds.Contains(studentId))
+        {
+            selectedStudentIds.Remove(studentId); // If already selected, remove it
+        }
+        else
+        {
+            selectedStudentIds.Add(studentId); // Otherwise, add the student ID to the list
+        }
+    }
+
+    private void ClearSelection()
+    {
+        foreach (var studentId in selectedStudentIds)
+        {
+            Console.WriteLine(studentId);
+        }
+        selectedStudentIds.Clear(); // Clear the selected student IDs
+    }
+
+
+}

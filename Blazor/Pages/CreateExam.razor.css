@@ -1,0 +1,40 @@
+
+div{
+<!--height: 600px; -->
+<!--width:49%;-->
+}
+
+.create-exam{
+    background-color: #C2F9D1;
+    height: 400px;
+    width: 300px;
+
+}
+.date{
+    margin-top: 15px;
+}
+.list-exams{
+    background-color: #87D39C;
+    height: 400px;
+    width: 300px;
+    margin-left: 15px;
+}
+.subject{
+    margin-top: 15px;
+    margin-left: 15px;
+    width: 49%;
+}
+.dates{
+    margin-top: 15px;
+
+    width: 49%;
+}
+
+
+.class {
+    margin-top: 25px;
+}
+div.create-exam{
+    padding: 15px;
+}
+   

@@ -1,0 +1,74 @@
+@page "/ClassDetail/{Name}"
+@using HttpClients.ClientInterfaces
+@using Domain
+@inject IClassService classService;
+@inject IUserService userService;
+@layout LoginLayout
+
+<h1>CLASS DETAIL</h1>
+<div class="mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">@ClassName</h2>
+                    <div class="form-group mb-3">
+                        <label for="teacher" ><strong>Teacher:</strong> @TeacherName</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="student" class="fw-bold">Students: </label>
+                        @if (Students != null)
+                        {
+                            @foreach (var student in Students)
+                            {
+                                <p>@student</p>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary">Back</button>
+        <div class="blue-container"></div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Name { get; set; }
+
+    private IEnumerable<SchoolClass> selectedClass;
+    private string ClassName = "";
+    private string TeacherName = "";
+    private List<string> Students;
+    
+    
+    
+    
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            if (!string.IsNullOrEmpty(Name))
+            {
+                selectedClass = await classService.GetClass(Name);
+
+                if (selectedClass != null && selectedClass.Any())
+                {
+                    var classToDisplay = selectedClass.FirstOrDefault(class_ => 
+                        class_.Name.Equals(Name, StringComparison.OrdinalIgnoreCase));
+
+                    if (classToDisplay != null)
+                    {
+                        ClassName = classToDisplay.Name;
+                        TeacherName = classToDisplay.TeacherId;
+                        Students = classToDisplay.Students;
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+    // Handle exceptions as needed
+        }
+    }
+}

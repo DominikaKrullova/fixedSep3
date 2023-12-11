@@ -1,0 +1,11 @@
+@page "/ViewGrades/{teacherId}"
+@using Domain
+<h3>ViewGrades</h3>
+
+@code {
+    [Parameter]
+    public string teacherId { get; set; }
+
+    public IEnumerable<Grade> grades;
+
+}

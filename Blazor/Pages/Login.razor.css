@@ -1,0 +1,24 @@
+/* Add your custom styles here */
+/* Example */
+.card {
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f8f9fa;
+}
+
+
+
+.btn-primary {
+    background-color: #87d39c;
+    border-color: #87d39c;
+}
+
+.btn-primary:hover {
+    background-color: #7bb58b;
+    border-color: #7bb58b;
+}
+
+
+
+
+

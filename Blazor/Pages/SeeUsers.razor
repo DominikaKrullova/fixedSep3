@@ -1,0 +1,57 @@
+@page "/SeeUsers"
+@using Domain
+@using HttpClients.ClientInterfaces
+@inject IUserService userService;
+
+<div class="container mt-4">
+    <h1 class="text-center">See Users</h1>
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Students</h2>
+                    <div class="list-group">
+                        @if (students != null)
+                        {
+                            @foreach (var student in students)
+                            {
+                                <p class="list-group-item mb-2">@student.Id</p>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Teachers</h2>
+                    <div class="list-group">
+                        @if (teachers != null)
+                        {
+                            @foreach (var teacher in teachers)
+                            {
+                                <p class="list-group-item  mb-2">@teacher.Id</p>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private IEnumerable<Student> students;
+    private string studentId = "";
+    private IEnumerable<Teacher> teachers;
+    private string teacherId = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        students = await userService.GetStudents();
+        teachers = await userService.GetTeachers();
+    }
+
+}

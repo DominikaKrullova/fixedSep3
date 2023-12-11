@@ -1,0 +1,210 @@
+@page "/StudentIndex/{Id}"
+@layout StudentLayout
+@using Blazor.Auth
+@using Domain
+@using HttpClients.ClientInterfaces
+@using System.Text.Json
+@inject IAuthService authService;
+@inject AuthenticationStateProvider StateProvider;
+@inject IExamService examService;
+@inject IGradeService gradeService;
+@inject HttpClient client
+
+<h1>STUDENT INDEX</h1>
+
+@if (authService is JwtAuthService jwtAuthService)
+{
+    @if (jwtAuthService.LoggedInUserType == JwtAuthService.UserType.Student)
+    {
+        <div class="mt-4">
+            <h2>MY EXAMS</h2>
+                <div class="col-md-6 card p-5">
+                    @if (exams == null)
+                    {
+                        <p>Loading...</p>
+                    }
+                    else if (exams.Any())
+                    {
+                        
+                            @foreach (var exam in exams.Where(e => e.Class != null && e.Class.Students.Contains(Id)))
+                            {
+                                <div class="mt-2">
+                                    <a href="/ExamDetailStudent/@exam.NameOfExam" class="mt-2">@exam.NameOfExam</a>
+                                 </div>
+                            }
+                        
+                    }
+                    else
+                    {
+                        <p>No exams found for this student.</p>
+                    }
+                </div>
+
+                    <h2 class="mt-5">MY CLASSES</h2>
+                <div class="col-md-6 card p-5 ">
+                    @if (classes == null)
+                    {
+                        <p>Loading...</p>
+                    }
+                    else if (classes.Any())
+                    {
+                        
+                            @foreach (var cls in classes.Where(c => c.Students != null && c.Students.Contains(Id)))
+                            {
+                                <div class="mt-3">
+                                    <a href="/ClassDetail/@cls.Name" class="mt-2">@cls.Name</a>
+                                    </div>
+                            }
+                        
+                    }
+                    else
+                    {
+                        <p>No classes found for this student.</p>
+                    }
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                    <h2>MY GRADES</h2>
+                <div class="col-md-6">
+                    <div class="row">
+                        @if (grades != null)
+                        {
+                            @foreach (var grade in grades)
+                            {
+                                <div class="col-md-4 mb-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">@grade.ExamId</h5>
+                                            <p class="card-text">Grade: @grade.StudentGrade</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        @if (grades == null || !grades.Any())
+                        {
+                            <div class="col-md-12">
+                                <p>No grades available.</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="blue-container">
+                    <div class="mx-5">
+                        <h1 class="fw-bold container-text">Welcome, @Id!</h1>
+                        <p>Here you can see your exams, classes and grades. For more details click on the name of exam or class.</p>
+                    </div>
+                    
+                </div>
+
+    }
+}
+
+
+@code {
+
+    [Parameter]
+    public string? Id { get; set; }
+
+    private IEnumerable<Exam> exams;
+    public IEnumerable<SchoolClass> classes;
+    private IEnumerable<Grade> grades;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await GetLoggedInUserId();
+            IEnumerable<Exam>? allExams;
+            if (authService is JwtAuthService jwtAuthService &&
+                jwtAuthService.LoggedInUserType == JwtAuthService.UserType.Student)
+            {
+                allExams = await examService.GetExam();
+                exams = allExams.Where(e => e.Class.Students.Contains(Id));
+            }
+            allExams = await examService.GetExam();
+            exams = allExams.Where(e => e.Class.Students.Contains(Id));
+            grades = await gradeService.GetGradesByStudentId(Id);
+
+
+    //Classes part
+
+            Console.WriteLine("Getting classes...");
+            classes = await GetClasses();
+            await GetLoggedInUserId();
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+
+
+    private async Task<IEnumerable<SchoolClass>> GetClasses()
+    {
+        try
+        {
+            HttpResponseMessage response = await client.GetAsync("/classes");
+            string result = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(result);
+            }
+
+            return JsonSerializer.Deserialize<IEnumerable<SchoolClass>>(result, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception: {ex.Message}");
+            throw; // Re-throw the exception to handle it in OnInitializedAsync()
+        }
+    }
+
+    private async Task<string> GetLoggedInUserId()
+    {
+        AuthenticationState state = await StateProvider.GetAuthenticationStateAsync();
+
+    // Check if the user is authenticated
+        if (state != null && state.User.Identity.IsAuthenticated)
+        {
+            var usernameClaim = state.User.Claims.FirstOrDefault(claim => claim.Type.Equals("username"));
+
+    // Check if the claim is found and has a non-null value
+            if (usernameClaim != null && !string.IsNullOrEmpty(usernameClaim.Value))
+            {
+                return usernameClaim.Value;
+            }
+            else
+            {
+    // Handle the case where the username claim is not found or has an empty value
+    // You can log or return a default value or throw an exception here
+                return "DefaultUsername"; // Replace with appropriate handling
+            }
+        }
+        else
+        {
+    // Handle the case where the user is not authenticated
+    // You can log, return a default value, or throw an exception here
+            return "UserNotAuthenticated"; // Replace with appropriate handling
+        }
+    }
+
+}
+
+<style lang="scss">
+    h2{
+        color: #A9D8C4 
+    }
+    
+    
+</style>
