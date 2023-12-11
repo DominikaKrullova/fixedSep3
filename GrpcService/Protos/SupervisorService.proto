@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package com.example.grpc.supervisor;
+
+service SupervisorService {
+  // Fetch a supervisor by ID
+  rpc FetchSupervisorById(SupervisorIdRequest) returns (SupervisorResponse);
+
+  // Create a new supervisor
+  rpc CreateSupervisor(Supervisor) returns (SupervisorResponse);
+
+  // Update a supervisor's data
+  rpc UpdateSupervisor(Supervisor) returns (SupervisorResponse);
+
+  // Delete a supervisor by ID
+  rpc DeleteSupervisorById(SupervisorIdRequest) returns (SupervisorResponse);
+}
+
+message Supervisor {
+  string id = 1;
+  string password = 2;
+}
+
+message SupervisorIdRequest {
+  int32 id = 1;
+}
+
+message SupervisorResponse {
+  Supervisor supervisor = 1;
+}

@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package com.example.grpc.exam;
+
+service ExamService {
+  // Fetch an exam by ID
+  rpc FetchExamById(ExamIdRequest) returns (ExamResponse);
+
+  // Create a new exam
+  rpc CreateExam(Exam) returns (ExamResponse);
+
+  // Update an exam's data
+  rpc UpdateExam(Exam) returns (ExamResponse);
+
+  // Delete an exam by ID
+  rpc DeleteExamById(ExamIdRequest) returns (ExamResponse);
+}
+
+message Exam {
+  int32 IdOfExam = 1;
+  string NameOfExam = 2;
+  string dt = 3;
+  string SchoolClass = 4;
+}
+
+message Question {
+  int32 id = 1;
+  string text = 2;
+  repeated Answer answers = 3;
+}
+
+message Answer {
+  int32 id = 1;
+  string text = 2;
+  bool isCorrect = 3;
+}
+
+message ExamIdRequest {
+  int32 id = 1;
+}
+
+message ExamResponse {
+  Exam exam = 1;
+}

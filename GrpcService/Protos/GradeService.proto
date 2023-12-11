@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package com.example.grpc.grade;
+
+service GradeService {
+  // Fetch a grade by Student ID
+  rpc FetchGradeByStudentId(GradeIdRequest) returns (GradeResponse);
+
+  // Create a new grade
+  rpc CreateGrade(Grade) returns (GradeResponse);
+
+}
+
+message Grade {
+  int32 Id = 1;
+  string ExamId = 2;
+  string StudentId = 3;
+  int32 StudentGrade = 4;
+}
+
+message GradeIdRequest {
+  int32 id = 1;
+}
+
+message GradeResponse {
+  Grade grade = 1;
+}

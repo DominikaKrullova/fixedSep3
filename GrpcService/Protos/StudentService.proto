@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package com.example.grpc.student;
+
+service StudentService {
+  // Fetch a student by ID
+  rpc FetchStudentById(StudentIdRequest) returns (StudentResponse);
+
+  // Create a new student
+  rpc CreateStudent(Student) returns (StudentResponse);
+
+  // Update a student's data
+  rpc UpdateStudent(Student) returns (StudentResponse);
+
+  // Delete a student by ID
+  rpc DeleteStudentById(StudentIdRequest) returns (StudentResponse);
+}
+
+message Student {
+  string id = 1;
+  string userId = 2;
+  string name = 3;
+  string password = 4;
+}
+
+message StudentIdRequest {
+  int32 id = 1;
+}
+
+message StudentResponse {
+  Student student = 1;
+}

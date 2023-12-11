@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package com.example.grpc.schoolclass;
+
+service SchoolClassService {
+  // Fetch a class by ID
+  rpc FetchClassById(SchoolClassIdRequest) returns (SchoolClassResponse);
+
+  // Create a new class
+  rpc CreateClass(SchoolClass) returns (SchoolClassResponse);
+
+  // Update a class's data
+  rpc UpdateClass(SchoolClass) returns (SchoolClassResponse);
+
+  // Delete a class by ID
+  rpc DeleteClassById(SchoolClassIdRequest) returns (SchoolClassResponse);
+}
+
+message SchoolClass {
+  string Name = 1;
+  string TeacherId = 2;
+  repeated string StudentIds = 3;
+  int32 Id = 4;
+}
+
+message SchoolClassIdRequest {
+  int32 id = 1;
+}
+
+message SchoolClassResponse {
+  SchoolClass class = 1;
+}

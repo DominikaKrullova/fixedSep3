@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package com.example.grpc.user;
+
+
+// Define the UserService
+service UserService {
+  rpc GetUserById (UserRequest) returns (User);
+  rpc CreateUser (User) returns (User);
+  rpc UpdateUser (User) returns (User);
+  rpc DeleteUser (UserRequest) returns (User);
+}
+
+// Define the User message
+message User {
+  string id = 1;
+  string password = 2;
+}
+
+// Define messages for other entities
+message Student {
+  string id = 1;
+  string userId = 2;
+  string name = 3;
+  string password = 4;
+}
+
+message Teacher {
+  string id = 1;
+  string userId = 2;
+  string name = 3;
+  string password = 4;
+}
+
+message SchoolClass {
+  string className = 1;
+  int32 classId = 2;
+}
+
+message Supervisor {
+  string id = 1;
+  string password = 2;
+}
+
+message Exam {
+  string NameOfExam = 1;
+  int32 grade = 2;
+  string dt = 3;
+  string SchoolClass = 4;
+}
+
+
+
+// Define a message for user requests
+message UserRequest {
+  string id = 1;
+}
