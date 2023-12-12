@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Protobuf Include="Protos\greet.proto" GrpcServices="Server"/>
+        <Protobuf Include="Protos\Student.proto" GrpcServices="Server" />
+        <Protobuf Include="Protos\TeacherService.proto" GrpcServices="Server"/>
+        <Protobuf Include="Protos\SupervisorService.proto" GrpcServices="Server"/>
+        <Protobuf Include="Protos\UserService.proto" GrpcServices="Server"/>
+        <Protobuf Include="Protos\GradeService.proto" GrpcServices="Server"/>
+        <Protobuf Include="Protos\ExamService.proto" GrpcServices="Server"/>
+        <Protobuf Include="Protos\SchoolClassService.proto" GrpcServices="Server"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Google.Protobuf" Version="3.25.1" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.49.0"/>
+        <PackageReference Include="Grpc.Tools" Version="2.59.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\Application\Application.csproj" />
+    </ItemGroup>
+
+</Project>

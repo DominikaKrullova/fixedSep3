@@ -8,12 +8,6 @@ service StudentService {
 
   // Create a new student
   rpc CreateStudent(Student) returns (StudentResponse);
-
-  // Update a student's data
-  rpc UpdateStudent(Student) returns (StudentResponse);
-
-  // Delete a student by ID
-  rpc DeleteStudentById(StudentIdRequest) returns (StudentResponse);
 }
 
 message Student {

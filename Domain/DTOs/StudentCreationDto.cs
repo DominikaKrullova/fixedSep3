@@ -14,7 +14,8 @@ public class StudentCreationDto : UserCreationDto
     {
     }
 
-    //[JsonPropertyName("UserId")]\\
+
+    public int UserId { get; set; }
     //[JsonPropertyName("Class")]
     //public string AssignedClass { get; set; }
 }
