@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Domain;
+using Grpc.Net.Client;
 
 namespace FileData;
 
@@ -91,5 +92,12 @@ public class FileContext
         });
         File.WriteAllText(filePath, serialized);
         dataContainer = null;
+
+        //sending data to java application using grpc
+        using var channel = GrpcChannel.ForAddress("http://localhost:5252");
+        var client = new DataExchanger.DataExchangerClient(channel);
+        var jsonData = File.ReadAllText(filePath);
+        var reply = client.SendData(new DataRequest { JsonData = jsonData });
+
     }
 }
