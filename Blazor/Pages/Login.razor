@@ -17,6 +17,10 @@
                 <div class="mb-3">
                     <label for="studentPassword" class="form-label">PASSWORD:</label>
                     <input type="password" class="form-control" id="studentPassword" @bind="passwordStudent">
+                    @if (!string.IsNullOrEmpty(errorLabelStudent))
+                    {
+                        <p>@errorLabelStudent</p>
+                    }
                 </div>
                 <p style="color: red;">@errorLabelStudent</p>
                 <button @onclick="LoginAsyncStudent" class="btn btn-primary">Login</button>
@@ -34,6 +38,10 @@
                 <div class="mb-3">
                     <label class="form-label" for="teacherPassword">PASSWORD:</label>
                     <input type="password" class="form-control" id="teacherPassword" @bind="passwordTeacher">
+                    @if (!string.IsNullOrEmpty(errorLabelStudent))
+                    {
+                        <p>@errorLabelTeacher</p>
+                    }
                 </div>
                 <p style="color: red;">@errorLabelTeacher</p>
                 <button @onclick="LoginAsyncTeacher" class="btn btn-primary">Login</button>
@@ -51,6 +59,11 @@
                 <div class="mb-3">
                     <label class="form-label" for="supervisorPassword" >PASSWORD:</label>
                     <input type="password" class="form-control" @bind="passwordSupervisor" id="supervisorPassword">
+                    @if (!string.IsNullOrEmpty(errorLabelStudent))
+                                        {
+                                            <p>@errorLabelSupervisor</p>
+                                            
+                                        }
                 </div>
                 <p style="color: red;">@errorLabelSupervisor</p>
                 <button @onclick="LoginAsyncSupervisor" class="btn btn-primary">Login</button>

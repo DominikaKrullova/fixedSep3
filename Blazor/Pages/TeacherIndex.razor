@@ -25,12 +25,12 @@
                     }
                     else if (exams.Any())
                     {
-                        <div >
                             @foreach (var exam in exams)
                             {
-                                <a href="/ExamDetail/@exam.NameOfExam">@exam.NameOfExam</a>
+                                <div>
+                                    <a href="/ExamDetail/@exam.NameOfExam">@exam.NameOfExam</a>
+                                </div>
                             }
-                        </div>
                     }
                     else
                     {
